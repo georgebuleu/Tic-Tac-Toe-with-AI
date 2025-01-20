@@ -1,5 +1,6 @@
 package com.uni.oop.GameWindow;
 
+import com.uni.oop.Player.Symbol;
 import java.awt.GridLayout;
 import javax.swing.JPanel;
 
@@ -37,7 +38,8 @@ public class GameBoard extends JPanel {
                 cells[row][col].clear();
             }
         }
-        controller.resetGame();
+        repaint();
+        GameController.setCurrentSymbol(Symbol.X);
     }
 
     public void setCell(int row, int col) {

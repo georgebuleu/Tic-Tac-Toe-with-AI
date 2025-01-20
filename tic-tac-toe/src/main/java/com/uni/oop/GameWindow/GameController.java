@@ -1,6 +1,6 @@
 package com.uni.oop.GameWindow;
 
-import com.uni.Player.Symbol;
+import com.uni.oop.Player.Symbol;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -67,6 +67,7 @@ public class GameController {
     public void resetGame() {
         currentSymbol = Symbol.X;
         System.out.println("Resseting the game");
+        board.resetBoard();
         notifyObservers();
     }
 }

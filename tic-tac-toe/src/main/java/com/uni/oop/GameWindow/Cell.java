@@ -1,6 +1,6 @@
 package com.uni.oop.GameWindow;
 
-import com.uni.Player.Symbol;
+import com.uni.oop.Player.*;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
@@ -53,7 +53,7 @@ public class Cell extends JPanel {
     }
 
     public void clear() {
-        symbol = " ";
+        this.symbol = " ";
         repaint();
     }
 

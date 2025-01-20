@@ -1,6 +1,7 @@
 package com.uni.oop.Components;
 
-import com.uni.Player.PlayerType;
+import com.uni.oop.Computer.Player;
+import com.uni.oop.Player.PlayerType;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -31,6 +32,15 @@ public class PlayerDropDown extends JComboBox<PlayerType> {
         );
 
         super.paintComponent(g2d);
+    }
+
+    public void setEnabled(boolean isEnabled) {
+        this.setEnabled(isEnabled);
+    }
+
+    public PlayerType getValue() {
+        System.out.println((PlayerType) this.getSelectedItem());
+        return (PlayerType) this.getSelectedItem();
     }
 
     @Override

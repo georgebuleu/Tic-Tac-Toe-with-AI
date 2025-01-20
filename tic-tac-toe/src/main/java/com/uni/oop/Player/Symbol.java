@@ -1,4 +1,4 @@
-package com.uni.Player;
+package com.uni.oop.Player;
 
 public enum Symbol {
     X("X"),

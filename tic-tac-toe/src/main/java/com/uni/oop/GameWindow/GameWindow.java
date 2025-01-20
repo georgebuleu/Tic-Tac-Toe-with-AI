@@ -18,7 +18,8 @@ public class GameWindow extends JFrame {
         setLayout(new BorderLayout());
 
         gameBoard = new GameBoard();
-        controlPanel = new ControlPanel(gameBoard);
+        GameController gameController = new GameController(gameBoard);
+        controlPanel = new ControlPanel(gameBoard, gameController);
 
         add(gameBoard, BorderLayout.CENTER);
         add(controlPanel, BorderLayout.EAST);

@@ -23,7 +23,7 @@ public class ControlPanel extends JPanel implements Observer {
         GameController.getCurrentSymbol().getSymbol()
     );
 
-    public ControlPanel(GameBoard gameboard) {
+    public ControlPanel(GameBoard gameboard, GameController gameController) {
         System.out.println("Creating ControlPanel");
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         setBackground(new Color(13, 31, 34));
@@ -53,7 +53,7 @@ public class ControlPanel extends JPanel implements Observer {
 
         gameboard.getController().addObserver(this);
 
-        restartButton.addActionListener(l -> gameboard.resetBoard());
+        restartButton.addActionListener(l -> gameController.resetGame());
         quitButton.addActionListener(l -> System.exit(0));
     }
 

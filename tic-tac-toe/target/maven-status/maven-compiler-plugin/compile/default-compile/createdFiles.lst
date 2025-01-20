@@ -1,10 +1,9 @@
 com/uni/oop/GameWindow/Observer.class
 com/uni/oop/GameWindow/GameController.class
-com/uni/Player/PlayerType.class
-com/uni/oop/Computer/PlayerChoser.class
 com/uni/oop/Computer/Human.class
+com/uni/oop/Computer/PlayerChoser.class
 com/uni/oop/Components/CustomLabel.class
-com/uni/Player/Symbol.class
+com/uni/oop/Player/PlayerType.class
 com/uni/oop/App.class
 com/uni/oop/Components/CustomButton.class
 com/uni/oop/GameWindow/GameBoard.class
@@ -18,4 +17,5 @@ com/uni/oop/GameWindow/GameWindow.class
 com/uni/oop/Computer/Computer.class
 com/uni/oop/GameWindow/Cell.class
 com/uni/oop/GameWindow/ControlPanel.class
+com/uni/oop/Player/Symbol.class
 com/uni/oop/Computer/HardAI.class
