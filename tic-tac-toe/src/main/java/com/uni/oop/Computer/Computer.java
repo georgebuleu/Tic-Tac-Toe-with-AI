@@ -13,7 +13,7 @@ public class Computer {
         do {
             move[0] = getRandomNumber(0, 3);
             move[1] = getRandomNumber(0, 3);
-        } while (board.isEmpty(move[0], move[1]));
+        } while (!board.isEmpty(move[0], move[1]));
         return move;
     }
 }

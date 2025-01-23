@@ -8,18 +8,15 @@ public class GameWindow extends JFrame {
     private static final int WINDOW_WIDTH = 1280;
     private static final int WINDOW_HEIGHT = 720;
 
-    private final GameBoard gameBoard;
-    private final ControlPanel controlPanel;
-
     public GameWindow() {
         setTitle("Tic-Tac-Toe");
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout());
 
-        gameBoard = new GameBoard();
-        GameController gameController = new GameController(gameBoard);
-        controlPanel = new ControlPanel(gameBoard, gameController);
+        GameBoard gameBoard = new GameBoard();
+        GameController gameController = GameController.getInstance(gameBoard);
+        ControlPanel controlPanel = new ControlPanel(gameBoard, gameController);
 
         add(gameBoard, BorderLayout.CENTER);
         add(controlPanel, BorderLayout.EAST);

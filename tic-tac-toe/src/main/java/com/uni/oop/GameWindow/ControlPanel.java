@@ -3,6 +3,10 @@ package com.uni.oop.GameWindow;
 import com.uni.oop.Components.CustomButton;
 import com.uni.oop.Components.CustomLabel;
 import com.uni.oop.Components.PlayerDropDown;
+import com.uni.oop.Player.PlayerType;
+import com.uni.oop.Player.Symbol;
+import com.uni.oop.Player.Turn;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -16,7 +20,7 @@ public class ControlPanel extends JPanel implements Observer {
 
     private CustomButton restartButton = new CustomButton("Restart");
     private CustomButton quitButton = new CustomButton("Quit Game");
-    private PlayerDropDown playerDropDown = new PlayerDropDown();
+    private final PlayerDropDown playerDropDown = new PlayerDropDown();
 
     private JLabel symbolMessageLabel = new CustomLabel("CURRENT PLAYER:");
     private JLabel currentTurnLabel = new CustomLabel(
@@ -53,11 +57,23 @@ public class ControlPanel extends JPanel implements Observer {
 
         gameboard.getController().addObserver(this);
 
-        restartButton.addActionListener(l -> gameController.resetGame());
+        playerDropDown.addActionListener(l -> {
+            gameController.setPlayerType(playerDropDown.getValue());
+            System.out.println("Current player type: " + gameController.getPlayerType());
+        });
+
+        restartButton.addActionListener(l -> {
+            gameController.resetGame();
+            currentTurnLabel.setText(Symbol.X.toString());
+            repaint();
+            playerDropDown.setEnabled(true);
+            gameController.setPlayerType(PlayerType.EASY_AI);
+            gameController.setCurentTurn(Turn.PLAYER);
+        });
         quitButton.addActionListener(l -> System.exit(0));
     }
 
-    public void update(String eventType) {
+    public void update(String eventType, GameStatus gameStatus) {
         System.out.println(
             "Current symbol: " + GameController.getCurrentSymbol()
         );
@@ -65,5 +81,19 @@ public class ControlPanel extends JPanel implements Observer {
         currentTurnLabel.setText(eventType);
 
         repaint();
+
+        switch (gameStatus) {
+            case RUNNING:
+                playerDropDown.setEnabled(false);
+                break;
+            case XWIN:
+            case OWIN:
+            case WAITING:
+            case DRAW:
+                playerDropDown.setEnabled(true);
+                break;
+        }
+
+
     }
 }

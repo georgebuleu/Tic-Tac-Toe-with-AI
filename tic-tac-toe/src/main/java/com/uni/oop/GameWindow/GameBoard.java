@@ -8,24 +8,31 @@ public class GameBoard extends JPanel {
 
     private static final int BOARD_SIZE = 3;
     private Cell[][] cells;
+    private Symbol[][] grid = new Symbol[BOARD_SIZE][BOARD_SIZE];
     private GameController controller;
+    private int[] lastMove = new int[2];
 
     public GameBoard() {
         System.out.println("Creating Gameboard...");
         setLayout(new GridLayout(BOARD_SIZE, BOARD_SIZE));
         cells = new Cell[BOARD_SIZE][BOARD_SIZE];
-        controller = new GameController(this);
+        controller = GameController.getInstance (this);
 
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
                 cells[row][col] = new Cell(row, col, controller);
                 add(cells[row][col]);
+                grid[row][col] = Symbol.EMPTY;
             }
         }
     }
 
     public boolean isEmpty(int row, int col) {
-        return cells[row][col].getSymbol() == " ";
+        return cells[row][col].isEmpty();
+    }
+
+    public boolean isEmptyGrid(int row, int col) {
+        return grid[row][col] == Symbol.EMPTY;
     }
 
     public GameController getController() {
@@ -36,6 +43,7 @@ public class GameBoard extends JPanel {
         for (int row = 0; row < BOARD_SIZE; row++) {
             for (int col = 0; col < BOARD_SIZE; col++) {
                 cells[row][col].clear();
+                grid[row][col] = Symbol.EMPTY;
             }
         }
         repaint();
@@ -44,12 +52,34 @@ public class GameBoard extends JPanel {
 
     public void setCell(int row, int col) {
         this.cells[row][col].setSymbol(
-                GameController.getCurrentSymbol().getSymbol()
+                GameController.getCurrentSymbol()
             );
+       this.refreshGrid();
+        //repaint();
+        System.out.println("Symbol was set by AI");
+    }
+
+    private void refreshGrid() {
+        for (int row = 0; row < BOARD_SIZE; row++) {
+            for (int col = 0; col < BOARD_SIZE; col++) {
+                grid[row][col] = this.cells[row][col].getSymbol();
+            }
+        }
+    }
+
+    public int[] getLastMove() {
+        return lastMove;
     }
 
     public Cell[][] getCells() {
         return cells;
+    }
+    public Symbol[][] getGrid() {
+        return grid;
+    }
+
+    public void setGrid(int row, int col, Symbol symbol) {
+        grid[row][col] = symbol;
     }
 
     public int countX() {
@@ -112,51 +142,51 @@ public class GameBoard extends JPanel {
     public GameStatus checkGameStatus() {
         for (int i = 0; i < BOARD_SIZE; i++) {
             if (
-                cells[i][0].getSymbol().charAt(0) +
-                    cells[i][1].getSymbol().charAt(0) +
-                    cells[i][2].getSymbol().charAt(0) ==
+                cells[i][0].getSymbol().toString().charAt(0) +
+                    cells[i][1].getSymbol().toString().charAt(0) +
+                    cells[i][2].getSymbol().toString().charAt(0) ==
                 264
             ) return GameStatus.XWIN;
             if (
-                cells[0][i].getSymbol().charAt(0) +
-                    cells[1][i].getSymbol().charAt(0) +
-                    cells[2][i].getSymbol().charAt(0) ==
+                cells[0][i].getSymbol().toString().charAt(0) +
+                    cells[1][i].getSymbol().toString().charAt(0) +
+                    cells[2][i].getSymbol().toString().charAt(0) ==
                 264
             ) return GameStatus.XWIN;
 
             if (
-                cells[i][0].getSymbol().charAt(0) +
-                    cells[i][1].getSymbol().charAt(0) +
-                    cells[i][2].getSymbol().charAt(0) ==
+                cells[i][0].getSymbol().toString().charAt(0) +
+                    cells[i][1].getSymbol().toString().charAt(0) +
+                    cells[i][2].getSymbol().toString().charAt(0) ==
                 237
             ) return GameStatus.OWIN;
             if (
-                cells[0][i].getSymbol().charAt(0) +
-                    cells[1][i].getSymbol().charAt(0) +
-                    cells[2][i].getSymbol().charAt(0) ==
+                cells[0][i].getSymbol().toString().charAt(0) +
+                    cells[1][i].getSymbol().toString().charAt(0) +
+                    cells[2][i].getSymbol().toString().charAt(0) ==
                 237
             ) return GameStatus.OWIN;
 
             if (
-                cells[0][0].getSymbol().charAt(0) +
-                        cells[1][1].getSymbol().charAt(0) +
-                        cells[2][2].getSymbol().charAt(0) ==
+                cells[0][0].getSymbol().toString().charAt(0) +
+                        cells[1][1].getSymbol().toString().charAt(0) +
+                        cells[2][2].getSymbol().toString().charAt(0) ==
                     264 ||
-                cells[0][2].getSymbol().charAt(0) +
-                cells[1][1].getSymbol().charAt(0) +
-                cells[2][0].getSymbol().charAt(0) ==
+                cells[0][2].getSymbol().toString().charAt(0) +
+                cells[1][1].getSymbol().toString().charAt(0) +
+                cells[2][0].getSymbol().toString().charAt(0) ==
                 264
             ) {
                 return GameStatus.XWIN;
             }
             if (
-                cells[0][0].getSymbol().charAt(0) +
-                        cells[1][1].getSymbol().charAt(0) +
-                        cells[2][2].getSymbol().charAt(0) ==
+                cells[0][0].getSymbol().toString().charAt(0) +
+                        cells[1][1].getSymbol().toString().charAt(0) +
+                        cells[2][2].getSymbol().toString().charAt(0) ==
                     237 ||
-                cells[0][2].getSymbol().charAt(0) +
-                cells[1][1].getSymbol().charAt(0) +
-                cells[2][0].getSymbol().charAt(0) ==
+                cells[0][2].getSymbol().toString().charAt(0) +
+                cells[1][1].getSymbol().toString().charAt(0) +
+                cells[2][0].getSymbol().toString().charAt(0) ==
                 237
             ) {
                 return GameStatus.OWIN;
@@ -166,5 +196,9 @@ public class GameBoard extends JPanel {
             countO() + countX() == BOARD_SIZE * BOARD_SIZE
         ) return GameStatus.DRAW;
         return GameStatus.RUNNING;
+    }
+
+    public void setCellEmpty(int row, int col) {
+        this.cells[row][col].setSymbol(Symbol.EMPTY);
     }
 }

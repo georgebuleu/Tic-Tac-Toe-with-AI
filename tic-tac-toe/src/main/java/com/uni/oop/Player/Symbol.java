@@ -2,7 +2,8 @@ package com.uni.oop.Player;
 
 public enum Symbol {
     X("X"),
-    O("O");
+    O("O"),
+    EMPTY(" ");
 
     private final String symbol;
 

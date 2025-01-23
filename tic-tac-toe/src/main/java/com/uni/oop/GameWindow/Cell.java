@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Objects;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
@@ -15,15 +16,16 @@ public class Cell extends JPanel {
 
     private static final int CELL_WIDTH = 50;
     private static final int CELL_HEIGHT = 50;
-    private int row, col;
-    private String symbol;
-    private GameController controller;
+    private final int row;
+    private final int col;
+    private Symbol symbol;
+    private final GameController controller;
 
     public Cell(int row, int col, GameController controller) {
         System.out.println("Creating cell...");
         this.row = row;
         this.col = col;
-        this.symbol = " ";
+        this.symbol = Symbol.EMPTY;
         this.controller = controller;
 
         setBackground(new Color(38, 64, 39));
@@ -36,28 +38,32 @@ public class Cell extends JPanel {
             new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    if (symbol == " ") {
-                        symbol = GameController.getCurrentSymbol().toString();
+                    if (Objects.equals(symbol, Symbol.EMPTY) && !controller.isAITurn()) {
+                        symbol = GameController.getCurrentSymbol();
                         repaint();
                         controller.handleMove(row, col);
                     }
+
                 }
             }
         );
     }
 
-    public void setSymbol(String symbol) {
+    public void setSymbol(Symbol symbol) {
         this.symbol = symbol;
         repaint();
         controller.handleMove(row, col);
     }
+    public boolean isEmpty() {
+        return Objects.equals(symbol, Symbol.EMPTY);
+    }
 
     public void clear() {
-        this.symbol = " ";
+        this.symbol = Symbol.EMPTY;
         repaint();
     }
 
-    public String getSymbol() {
+    public Symbol getSymbol() {
         return symbol;
     }
 
@@ -66,7 +72,7 @@ public class Cell extends JPanel {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
 
-        if (symbol == Symbol.X.toString() || symbol == Symbol.O.toString()) {
+        if (Objects.equals(symbol, Symbol.X) || Objects.equals(symbol, Symbol.O)) {
             g2d.setFont(new Font("Arial", Font.BOLD, 100));
             g2d.setColor(Color.BLACK);
             g2d.drawString(
@@ -86,8 +92,6 @@ public class Cell extends JPanel {
             return false;
         }
         Cell other = (Cell) obj;
-        return symbol != null
-            ? symbol.equals(other.symbol)
-            : other.symbol == null;
+        return Objects.equals(symbol, other.symbol);
     }
 }
